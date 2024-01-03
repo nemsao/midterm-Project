@@ -2,7 +2,7 @@ declare module 'bcrypt';
 declare module 'jsonwebtoken'
 import { authenticate ,authorizationService,invalidThisToken} from "../../service/auth.admin.service";
 import { NextFunction, Request,Response } from "express"
-import {showProject,projectDetail,projectAdd,projectEdit,projectDelete} from '../../service/project.admin.service'
+import {showProject,projectDetail,projectAdd,projectEdit,projectDelete,projectAddMember} from '../../service/project.admin.service'
 
 declare module 'express' {
   interface Request {
@@ -85,6 +85,18 @@ const controllerAdmin={
     res.status(500).json({Error:err})
   }
  
+},
+
+projectAddPeople:async(req:Request,res:Response,next:any)=>{
+   const {name,username,role}=req.body
+   try{
+     const  project=await projectAddMember(name,username,role)
+     res.status(200).json({message:"Thêm thành công" ,project})
+   }catch(err){
+    res.status(200).json({Error:err.message})
+   }
+   
+
 }
 }
 export {controllerAdmin}
