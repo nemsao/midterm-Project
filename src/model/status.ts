@@ -12,7 +12,8 @@ class Status {
 const listOfStatus: Status[] = [
   new Status("New", 1),
   new Status("In Progress", 2),
-  new Status("Completed", 3),
+  new Status("Suppend", 3),
+  new Status("Completed", 4),
 ];
 
 export { Status, listOfStatus };

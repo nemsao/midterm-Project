@@ -11,9 +11,28 @@ class project {
   slug?: string;
   start_date?: Date;
   end_date?: Date;
+  constructor(name: string,
+    number_of_tasks?: number,
+    process?: number,
+    number_of_people?: people[],
+    list_of_task?: task[],
+    status?: string,
+    slug?: string,
+    start_date?: Date,
+    end_date?: Date,){
+    this.name=name
+    this.number_of_tasks=number_of_tasks
+    this.process=process
+    this.number_of_people=number_of_people
+    this.list_of_task=list_of_task
+    this.status=status
+    this.slug=slug
+    this.start_date=start_date
+    this.end_date=end_date
+  }
 }
 
-let projects: project[] = [
+const projects: project[] = [
   {
     name: "january",
     number_of_people: [

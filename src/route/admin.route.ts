@@ -35,8 +35,23 @@ adminRouter.delete("/member/:name", controllerAdmin.memberDelete);
 adminRouter.put("/member/:name", controllerAdmin.memberEdit);
 
 //for type
-adminRouter.get("/type/list", controllerAdmin.seeAllType);
-adminRouter.put("/member/:name", controllerAdmin.editThisType);
-adminRouter.post("/member/:name", controllerAdmin.hideTheType);
+adminRouter.get("/type", controllerAdmin.seeAllType);
+adminRouter.put("/type", controllerAdmin.editThisType);
+adminRouter.post("/type", controllerAdmin.hideTheType);
 
+// for status
+adminRouter.get("/status", controllerAdmin.seeAllType);
+adminRouter.put("/status", controllerAdmin.editThisType);
+adminRouter.post("/status", controllerAdmin.hideTheType);
+
+// for priority
+adminRouter.get("/priority", controllerAdmin.seeAllPriority);
+adminRouter.put("/priority", controllerAdmin.editThisType);
+adminRouter.post("/priority", controllerAdmin.hideThisPriority);
+
+//for task
+adminRouter.get("/task", controllerAdmin.getAllTask);
+adminRouter.put("/task", controllerAdmin.editThisTask);
+adminRouter.post("/task", controllerAdmin.newTask);
+adminRouter.delete("/task", controllerAdmin.deleteThisTask);
 export { adminRouter };
