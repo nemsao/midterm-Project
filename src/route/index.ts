@@ -1,7 +1,7 @@
 import { Router } from "express";
-import {adminRouter}from './admin.route'
-const router=Router()
+import { adminRouter } from "./admin.route";
+const router = Router();
 
-router.use('/admin',adminRouter)
+router.use("/admin", adminRouter);
 
-export {router}
+export { router };

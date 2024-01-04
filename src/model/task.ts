@@ -1,10 +1,11 @@
-class task{
-    name:string
-    description:string
-    constructor(name:string , description:string){
-       this.name=name
-       this.description=description
-    }
+class task {
+  name: string;
+  description: string;
+  color: string = "red" || "green";
+  constructor(name: string, description: string) {
+    this.name = name;
+    this.description = description;
+  }
 }
 
-export {task}
+export { task };
