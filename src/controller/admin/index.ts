@@ -1,8 +1,13 @@
 declare module 'bcrypt';
 declare module 'jsonwebtoken'
-import { authenticate ,authorizationService,invalidThisToken} from "../../service/auth.admin.service";
+import { authenticate ,authorizationService,invalidThisToken} from "../../service/admin/auth.admin.service";
 import { NextFunction, Request,Response } from "express"
-import {showProject,projectDetail,projectAdd,projectEdit,projectDelete,projectAddMember} from '../../service/project.admin.service'
+import {showProject,projectDetail,projectAdd,projectEdit,projectDelete,
+        projectAddMember,projectRemoveMember} from '../../service/admin/project.admin.service'
+
+import {listAllMembers,detailsOfMember,deleteMember,editMember} from '../../service/admin/user.admin.service'
+
+import {editType,getAllType,hideThisType} from '../../service/admin/type.admin'
 
 declare module 'express' {
   interface Request {
@@ -88,15 +93,93 @@ const controllerAdmin={
 },
 
 projectAddPeople:async(req:Request,res:Response,next:any)=>{
-   const {name,username,role}=req.body
+   const {project_name,name,role}=req.body
    try{
-     const  project=await projectAddMember(name,username,role)
+     const  project=await projectAddMember(project_name,name,role)
      res.status(200).json({message:"Thêm thành công" ,project})
    }catch(err){
     res.status(200).json({Error:err.message})
    }
-   
+},
+projectRemovePeople:async(req:Request,res:Response,next:NextFunction)=>{
+  const {project_name,name}=req.body
+  try{
+    const  project=await projectRemoveMember(project_name,name)
+    res.status(200).json({message:"Loại 1 người ra khỏi dự án  thành công" ,project})
+  }catch(err){
+   res.status(200).json({Error:err.message})
+  }
+},
 
-}
+
+//user managing
+ ShowAllMembers:async (req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const  memberLists=await listAllMembers()
+    res.status(200).json({message:"danh sách nhân viên " ,memberLists})
+  }catch(err){
+   res.status(200).json({Error:err.message})
+  }
+ },
+ memberDetails:async (req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const {name}=req.params
+    const  member=await detailsOfMember(name)
+    res.status(200).json({message:"danh sách nhân viên " ,data:member})
+  }catch(err){
+   res.status(200).json({Error:err.message})
+  }
+ },
+ memberDelete:async (req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const {name}=req.params
+    const  member=await deleteMember(name)
+    res.status(200).json({message:"danh sách nhân viên sau khi xoá " ,data:member})
+  }catch(err){
+   res.status(200).json({Error:err.message})
+  }
+ },
+ memberEdit:async (req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const {name}=req.params
+    const { dateOfBirth,email,status}=req.body
+    const  member=await editMember(name,dateOfBirth,email,status)
+    res.status(200).json({message:"Thông tin nhân viên sau khi sửa " ,data:member})
+  }catch(err){
+   res.status(300).json({Error:err.message})
+  }
+ },
+
+
+
+ //type
+ seeAllType:async (req:Request,res:Response,next:NextFunction)=>{
+   try{
+    const  types=await getAllType()
+    res.status(200).json({message:"Thông tin cảu các type " ,data:types})
+   }catch(err){
+    res.status(200).json({Error:err.message})
+   }
+ },
+ editThisType:async(req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const {name,visible}=req.body
+    const editedType=await editType(name,visible)
+    res.status(200).json(editedType)
+  }catch(err){
+    res.status(200).json({Error:err.message})
+  }
+ },
+ hideTheType:async(req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const {name}=req.body
+    const hidedType=await hideThisType(name)
+    res.status(200).json(hidedType)
+  }catch(err){
+    res.status(200).json({Error:err.message})
+  }
+ },
+
+
 }
 export {controllerAdmin}

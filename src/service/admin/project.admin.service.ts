@@ -1,4 +1,5 @@
-import {projects} from'../model/project'
+import {projects} from'../../model/project'
+import { people } from '../../model/user';
 
 
 const showProject=():object[]=>{
@@ -62,7 +63,7 @@ const projectEdit=async(oldname:string,name?:string,slug?:string,start_date?:Dat
        const foundProject=await projects.find(value=>value.name===name)
        if(foundProject){
          const index=projects.indexOf(foundProject)
-         projects[index].number_of_people?.push({name:nameOfNember,role:role})
+         projects[index].number_of_people?.push(new people(nameOfNember,role))
         return Promise.resolve( projects[index])
     }else{
             throw new Error ("Không tìm thấy project cần xoá")
@@ -70,6 +71,27 @@ const projectEdit=async(oldname:string,name?:string,slug?:string,start_date?:Dat
     }catch(err){
         throw new Error (err)
     }
+    
  }
-export {showProject,projectDetail,projectAdd,projectEdit,projectDelete,projectAddMember}
+ const projectRemoveMember=async(name:string,nameOfNember:string):Promise<any>=>{
+    try{
+       const foundProject=await projects.find(value=>value.name===name)
+       if(foundProject){
+         const indexOfProject=projects.indexOf(foundProject)
+         const member =projects[indexOfProject].number_of_people?.find(value=>value.name===nameOfNember)
+         if(member){
+             const indexOfMember=projects[indexOfProject].number_of_people?.indexOf(member)
+             if(indexOfMember)projects[indexOfProject].number_of_people?.splice(indexOfMember,1)
+             return Promise.resolve( projects[indexOfProject])
+         }
+    }else{
+            throw new Error ("Không tìm thấy project cần xoá")
+        }
+    }catch(err){
+        throw new Error (err)
+    }
+    
+ }
+ 
+export {showProject,projectDetail,projectAdd,projectEdit,projectDelete,projectAddMember,projectRemoveMember}
 
