@@ -9,6 +9,7 @@ import {listAllMembers,detailsOfMember,deleteMember,editMember} from '../../serv
 
 import {editType,getAllType,hideThisType} from '../../service/admin/type.admin'
 
+import {hideThisStatus,getAllStatus,editStatus} from '../../service/admin/status.admin.service'
 declare module 'express' {
   interface Request {
       user: string;
@@ -180,6 +181,34 @@ projectRemovePeople:async(req:Request,res:Response,next:NextFunction)=>{
   }
  },
 
+
+//status
+seeAllStatus:async (req:Request,res:Response,next:NextFunction)=>{
+  try{
+   const  statuses=await getAllStatus()
+   res.status(200).json({message:"Thông tin cảu các status" ,data:statuses})
+  }catch(err){
+   res.status(200).json({Error:err.message})
+  }
+},
+editThisStatus:async(req:Request,res:Response,next:NextFunction)=>{
+ try{
+   const {name,order}=req.body
+   const ListStatusesAfterEdited=await editStatus(name,order)
+   res.status(200).json(ListStatusesAfterEdited)
+ }catch(err){
+   res.status(200).json({Error:err.message})
+ }
+},
+hideTheStatus:async(req:Request,res:Response,next:NextFunction)=>{
+ try{
+   const {name}=req.body
+   const hidedStatus=await hideThisStatus(name)
+   res.status(200).json(hidedStatus)
+ }catch(err){
+   res.status(200).json({Error:err.message})
+ }
+},
 
 }
 export {controllerAdmin}
