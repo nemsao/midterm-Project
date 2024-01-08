@@ -36,7 +36,7 @@ const authenticate = async (
   }
 };
 
-const authorizationService = async (token: string,username:string) => {
+const authorizationService = async (token: string, username: string) => {
   try {
     const decodeToken = jwt.verify(token, env.SECRET_KEY);
     const user = decodeToken.toString();
@@ -47,14 +47,10 @@ const authorizationService = async (token: string,username:string) => {
 };
 const invalidThisToken = async (username: string, token: string) => {
   try {
-    console.log(myCache.set(username, token, 100000))
-     
+    console.log(myCache.set(username, token, 100000));
   } catch (err) {
-    throw new Error("Lỗi Invalid token")
+    throw new Error("Lỗi Invalid token");
   }
-
 };
 
-
-
-export { authenticate, authorizationService,invalidThisToken };
+export { authenticate, authorizationService, invalidThisToken };
