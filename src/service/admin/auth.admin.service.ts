@@ -3,7 +3,7 @@ declare module "jsonwebtoken";
 declare module "node-cache";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
-import { env } from "../interface.env";
+import { env } from "../../interface.env";
 import nodeCache from "node-cache";
 
 const myCache = new nodeCache();
@@ -38,9 +38,6 @@ const authenticate = async (
 
 const authorizationService = async (token: string,username:string) => {
   try {
-    const exists = myCache.has( username );
- 
-    console.log( exists );
     const decodeToken = jwt.verify(token, env.SECRET_KEY);
     const user = decodeToken.toString();
     return user;
@@ -55,6 +52,9 @@ const invalidThisToken = async (username: string, token: string) => {
   } catch (err) {
     throw new Error("Lỗi Invalid token")
   }
+
 };
+
+
 
 export { authenticate, authorizationService,invalidThisToken };

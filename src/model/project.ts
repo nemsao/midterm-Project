@@ -10,9 +10,14 @@ class task{
 class people{
     name:string
     role:string
-    constructor(name:string,role:string){
+    dateOfBirth?:Date
+    email?:string
+    status?:string="active"||"inactive"
+    invitedId?:string
+    constructor(name:string,role:string,invitedId:string=Math.random().toString() ){
         this.name=name
         this.role=role
+        this.invitedId=invitedId
     }
 }
 class project{
@@ -32,6 +37,5 @@ let projects:project[]=[{name:"january",number_of_people:[new people("Hai","Test
 {name:"march",number_of_people:[new people("Dung","Coder"),new people("Dat","leader"),new people("Xuan","Support"),new people("Xuan Hinh","Comedian")],process:4,number_of_tasks:22,list_of_task:[new task('task3','task3 description'),new task('task3','task3 description')],status:"in progress"},
 {name:"autum",number_of_people:[new people("Duc","Support"),new people("Hung","Tester")],process:7,number_of_tasks:5,list_of_task:[new task('task4','task4 description'),new task('task4','task4 description')],status:"resolved"},
 {name:"december",number_of_people:[new people("Hai","Tester"),new people("Hung","Tester")],process:7,number_of_tasks:12,list_of_task:[new task('task5','task5 description'),new task('task6','task6 description')],status:"resolved"},
-
 ]
-export {projects}
+export {projects,project}
