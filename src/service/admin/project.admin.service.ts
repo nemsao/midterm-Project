@@ -27,7 +27,7 @@ const projectAdd = async (
   end_date: Date
 ): Promise<string> => {
   try {
-    await projects.push({ name, slug, start_date, end_date });
+    await projects.push({ name, slug, start_date, end_date,list_of_task:[] });
     return Promise.resolve("Đã thêm ");
   } catch (err) {
     return Promise.reject("Error :" + err);
