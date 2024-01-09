@@ -2,7 +2,7 @@ class Status {
   name: string;
   order: number;
   visible?: boolean = true || false;
-  constructor(name: string, order: number, visible: boolean = true) {
+  constructor(name: string, order: number=1, visible: boolean = true) {
     this.name = name;
     this.order = order;
     this.visible = visible;
