@@ -12,8 +12,8 @@ import { showtasks, editTasks ,taskDelete} from "../../service/user/task.user";
 
 const UserController = {
   makeNewUser: async (req: Request, res: Response, next: NextFunction) => {
-    const { username, password, email, dateOfBirth } = req.body;
-    createUser(username, password, email, dateOfBirth)
+    const { invitedId, email, dateOfBirth } = req.body;
+    createUser(invitedId, email, dateOfBirth)
       .then((e) => res.status(200).json({ e }))
       .catch((err) => res.status(300).json({ err }));
   },
@@ -25,12 +25,12 @@ const UserController = {
         console.log();
         res.status(200).json(value);
       })
-      .catch((err) => res.status(300).json({ err }));
+      .catch((err) => res.status(300).json( err.message));
   },
   login: async (req: Request, res: Response, next: NextFunction) => {
-    const { username, password } = req.body;
+    const { id, password } = req.body;
 
-    userLogin(username, password)
+    userLogin(id, password)
       .then((e) => {
         console.log(e);
         return res.status(200).json(e);
@@ -56,9 +56,9 @@ const UserController = {
     res: Response,
     next: NextFunction
   ) => {
-    const { username, project, name, description } = req.body;
+    const { id, project, name, description } = req.body;
 
-    createTasksInProject(username, project, name, description)
+    createTasksInProject(id, project, name, description)
       .then((e) => {
         console.log(e);
         return res.status(200).json(e);
@@ -71,7 +71,7 @@ const UserController = {
     next: NextFunction
   ) => {
     const {
-      username,
+      id,
       project,
       taskname,
       type_name,
@@ -82,7 +82,7 @@ const UserController = {
       end_date,
     } = req.body;
     editTasksInProject(
-      username,
+      id,
       project,
       taskname,
       type_name,
@@ -108,13 +108,13 @@ const UserController = {
       .catch((err) => res.status(300).json({ Error: err.message }));
   },
   editThisTask: async (req: Request, res: Response, next: NextFunction) => {
-    const {username,project_name,description,task_name,type_name,priority,status,assignee,start_date,end_date,} = req.body;
-    editTasks(username,project_name,description,task_name,type_name,priority,status,assignee,start_date,end_date).then((e) => {  return res.status(200).json(e);})
+    const {id,project_name,description,task_name,type_name,priority,status,assignee,start_date,end_date,} = req.body;
+    editTasks(id,project_name,description,task_name,type_name,priority,status,assignee,start_date,end_date).then((e) => {  return res.status(200).json(e);})
       .catch((err) => res.status(300).json({ Error: err.message }));
   },
   deleteThisTask: async (req: Request, res: Response, next: NextFunction) => {
-    const {username,project_name,task_name} = req.body;
-    taskDelete(username,project_name,task_name).then((e) => {  return res.status(200).json(e);})
+    const {id,project_name,task_name} = req.body;
+    taskDelete(id,project_name,task_name).then((e) => {  return res.status(200).json(e);})
       .catch((err) => res.status(300).json({ Error: err.message }));
   },
 };
