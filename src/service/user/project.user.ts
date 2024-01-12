@@ -7,7 +7,7 @@ import { Priority } from "../../model/priority";
 const findProjects = async (username: string): Promise<project[] | Error> => {
   const projectUserIntended = await projects.filter((e) => {
     const length = e.number_of_people?.filter((member) => {
-      return member.name == username;
+      return member.id == username;
     }).length;
     return length ? length > 0 : false;
   });
@@ -27,7 +27,7 @@ const findProjects = async (username: string): Promise<project[] | Error> => {
     
     return Promise.resolve(modifiedProjects);
   } else {
-    return new Error("KHONG CÓ TRONG DỰU ÁN NÀO ");
+    return Promise.reject(new Error("KHONG CÓ TRONG DỰU ÁN NÀO "));
   }
 };
 const taskInProjects = async (username: string,project_name:string): Promise<task[] | Error> => {
@@ -35,9 +35,10 @@ const taskInProjects = async (username: string,project_name:string): Promise<tas
     const projectFound = projects.find((value) => {
         return value.name === project_name;
       });
-  const TaskOfUser = projectFound?.list_of_task?.filter(e=>e.assign?.name===username)
-  if (TaskOfUser) {
-    return Promise.resolve(TaskOfUser);
+  const TaskOfUser = projectFound?.list_of_task?.filter(e=>e.assign?.id===username)
+       const returnvalue=  TaskOfUser?.map(value=>{delete value.assign?.password ;return value;}) 
+  if (returnvalue?.length) {
+    return Promise.resolve(returnvalue);
   } else {
     return Promise.reject(new Error("Chua được phân công task nào "));
   }
@@ -52,7 +53,7 @@ const createTasksInProject =async (
   ): Promise<task[] | Error> => {
 
     const newTask = new task(name, description)
-    if(newTask)newTask.assign=new people(username,"")
+    if(newTask)newTask.assign=new people("NV10",username,"")
     const taskInProject: task[] | Error = await taskInProjects(username, project_name);
       if(Array.isArray(taskInProject)){
         taskInProject.push(newTask)
@@ -63,7 +64,7 @@ const createTasksInProject =async (
         return a.priority.order - b.priority.order;
       }
     });
-    return Promise.resolve(listAfterSorted);
+    return Promise.resolve(listAfterSorted.map(e=>{delete e.assign?.password;return e}));
       }else{
         return Promise.reject(new Error("Không tìm thấy danh sách task "));
       }
@@ -82,7 +83,7 @@ const createTasksInProject =async (
   ): Promise<project|Error> => {
     
     const foundProject = projects.find(pj =>
-        pj.number_of_people?.find(x => x.name === username) &&
+        pj.number_of_people?.find(x => x.id === username) &&
         pj.name === project_name &&
         pj.list_of_task?.find(x => x.name === task_name)
       );
@@ -94,23 +95,23 @@ const createTasksInProject =async (
         const foundTaskIndex=foundProject.list_of_task?.findIndex(e=>e.name===task_name)
           //@ts-ignore
           const foundTask = foundProject.list_of_task[foundTaskIndex]
-          
+          delete foundTask.assign?.password
           const startDate =start_date? new Date(start_date):foundTask.start_date
           const endDate =end_date? new Date(end_date):foundTask.end_date
           const newType=type_name?new type(type_name):foundTask.type
           const newStatus=status?new Status(status):foundTask.status
           const newPriority=priority?new Priority(priority,1):foundTask.priority
-          const newAssignee=assignee?new people(assignee,""):foundTask.assign
+          const newAssignee=assignee?new people("NV9",assignee,""):foundTask.assign
           //@ts-ignore
           projects[indexOfProject].list_of_task[foundTaskIndex]={... projects[indexOfProject].list_of_task[foundTaskIndex],
            type: newType,priority:newPriority ,status:newStatus,end_date: endDate, start_date:startDate,assign:newAssignee }
            //@ts-ignore
-            return Promise.resolve(projects[indexOfProject] );
+            return Promise.resolve(projects[indexOfProject].list_of_task.map(e=>{delete e.assign?.password;return e}) );
         }else{
             return Promise.reject( new Error("Lỗi trong quá trình sửa task "));
         } 
       }else{
-        return Promise.reject(new Error("Không tìm thấy project "));
+        return Promise.reject(new Error("Can't find this project "));
       }
   };
 

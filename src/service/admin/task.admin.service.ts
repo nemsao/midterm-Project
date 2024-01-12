@@ -3,14 +3,15 @@ import { types } from "../../model/type";
 import { listOfStatus } from "../../model/status";
 import { priorities } from "../../model/priority";
 import {memberOfprojects}from "../../model/user"
-const showtasks = (): Promise<task[] | Error> => {
-  const listAfterSorted = taskList.sort((a, b) => {
-    if (a.status.name != b.status.name) {
-      return a.status.order - b.status.order;
-    } else {
-      return a.priority.order - b.priority.order;
-    }
-  });
+const checkDate=(newStartDate:Date,newEndDate:Date,projectStartDate:Date,projectEndDate:Date, ):boolean=>{
+    return (newStartDate> projectStartDate && newEndDate<projectEndDate)
+}
+const showtasks = (): Promise<any> => {
+  const listAfterSorted = listOfStatus.map(value=>{
+   const taskWithStatus= taskList.filter(e=> e.status.name===value.name)
+   const returnStatus={...value,taskWithStatus}
+   return returnStatus
+  })
   return Promise.resolve(listAfterSorted);
 };
 const createTasks = (
@@ -82,7 +83,7 @@ const taskDelete = async (name: string,project:string): Promise<task[]> => {
       if (foundTask) {
         const index = taskList.indexOf(foundTask);
         taskList.splice(index, 1);
-        return Promise.resolve(taskList);
+        return Promise.resolve(taskList.map(e=>{delete e.assign?.password;return e;}));
       } else {
         throw new Error("Không tìm thấy task cần xoá");
       }
@@ -90,4 +91,4 @@ const taskDelete = async (name: string,project:string): Promise<task[]> => {
       throw new Error(err);
     }
   };
-export { showtasks, createTasks, editTasks,taskDelete };
+export {checkDate, showtasks, createTasks, editTasks,taskDelete };

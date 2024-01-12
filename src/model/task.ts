@@ -44,7 +44,7 @@ const taskList = [
     "autum",
     listOfStatus[0],
     types[0],
-    new people("Hung","No")
+    new people("NV8","Hung","No")
   ),
   new task(
     "manging",
@@ -53,7 +53,7 @@ const taskList = [
     "autum",
     listOfStatus[3],
     types[2],
-    new people("Hung","Tester")
+    new people("NV5","Hung","Tester")
   ),
   new task(
     "developing",
@@ -62,7 +62,7 @@ const taskList = [
     "autum",
     listOfStatus[2],
     types[3],
-    new people("Hung","Tester")
+    new people("NV1","Hung","Tester")
   ),
   new task(
     "review",
@@ -71,7 +71,7 @@ const taskList = [
     "January",
     listOfStatus[1],
     types[1],
-    new people("Hung","Tester")
+    new people("NV2","Hung","Tester")
   ),
   new task(
     "showing",
@@ -80,7 +80,7 @@ const taskList = [
     "March",
     listOfStatus[2],
     types[2],
-    new people("Hung","Tester")
+    new people("NV3","Hung","Tester")
   ),
   new task(
     "planning",
@@ -89,16 +89,16 @@ const taskList = [
     "febuanary",
     listOfStatus[3],
     types[3],
-    new people("Hung","Tester")
+    new people("NV4","Hung","Tester")
   ),
   new task(
-    "panning",
+    "planning",
     "meeting at meetroom",
     priorities[4],
-    "dêcmber",
+    "december",
     listOfStatus[4],
     types[4],
-    new people("Hung","Tester")
+    new people("NV5","Duc","Tester")
   ),
 ];
 export { task, taskList };

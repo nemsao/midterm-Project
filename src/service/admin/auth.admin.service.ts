@@ -8,9 +8,11 @@ import nodeCache from "node-cache";
 
 const myCache = new nodeCache();
 class User {
+  id:string;
   username: string;
   password: string;
   constructor(username: string, password: string) {
+    this.id="admin";
     this.username = username;
     this.password = bcrypt.hashSync(password, 10);
   }
@@ -19,15 +21,15 @@ class User {
 const authenticate = async (
   username: string,
   password: string
-): Promise<string> => {
+): Promise<any> => {
   const Admin = new User("admin", "12345");
 
   if (username === Admin.username) {
     const equal = await bcrypt.compare(password, Admin.password);
     if (equal) {
       const token = await jwt.sign(username, env.SECRET_KEY);
-
-      return Promise.resolve(token);
+      const ReAdmin={name:Admin.username,id:Admin.id}
+      return Promise.resolve({data:ReAdmin,token:token});
     } else {
       return Promise.reject("Sai mat khẩu");
     }

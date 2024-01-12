@@ -2,6 +2,9 @@ import { priorities, Priority } from "../../model/priority";
 const getAllPriorities = () => {
   return priorities;
 };
+const addPriorities = (name:string ,oder:number) => {
+   
+};
 const hideThisPriority = (name: string) => {
   const typeNeedToHide = priorities.find((value) => value.name === name);
   if (typeNeedToHide) typeNeedToHide.visible = false;
@@ -17,7 +20,7 @@ const editPriorities = async (name: string, order:number,visible?: boolean): Pro
           return new Error("Không tìm thấy Status");
         }
         const list = priorities.filter((e) => e.visible === false);
-        return list;
+        return Promise.resolve( list);
       };
 };
-export { getAllPriorities, hideThisPriority, editPriorities };
+export { getAllPriorities, hideThisPriority, editPriorities,addPriorities };

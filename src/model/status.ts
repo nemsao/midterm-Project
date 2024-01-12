@@ -7,6 +7,9 @@ class Status {
     this.order = order;
     this.visible = visible;
   }
+  
+
+
 }
 
 const listOfStatus: Status[] = [
